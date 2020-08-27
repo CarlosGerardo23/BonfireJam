@@ -1,0 +1,33 @@
+{
+    "name": "PlayerControls",
+    "maps": [
+        {
+            "name": "UIGameplay",
+            "id": "5f3c1bcc-25ea-4cc8-859d-4a7b49479e42",
+            "actions": [
+                {
+                    "name": "TestStart",
+                    "type": "Button",
+                    "id": "2911728b-d854-4394-88c0-55c1c3e54fc0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "362bb915-3198-44eb-8246-7a7badd5cba5",
+                    "path": "<Gamepad>/start",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TestStart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
