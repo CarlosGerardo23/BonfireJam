@@ -59,6 +59,33 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerMovement"",
+            ""id"": ""bae8e2dd-15ee-4658-ac88-be8c974fa1e7"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""743a6a0d-e401-4648-9c31-aff699265210"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7b11773b-54b3-4ff1-a240-6a375f703c5c"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -67,6 +94,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_UIGameplay = asset.FindActionMap("UIGameplay", throwIfNotFound: true);
         m_UIGameplay_TestStart = m_UIGameplay.FindAction("TestStart", throwIfNotFound: true);
         m_UIGameplay_MoveSelection = m_UIGameplay.FindAction("MoveSelection", throwIfNotFound: true);
+        // PlayerMovement
+        m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
+        m_PlayerMovement_Movement = m_PlayerMovement.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -153,9 +183,46 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         }
     }
     public UIGameplayActions @UIGameplay => new UIGameplayActions(this);
+
+    // PlayerMovement
+    private readonly InputActionMap m_PlayerMovement;
+    private IPlayerMovementActions m_PlayerMovementActionsCallbackInterface;
+    private readonly InputAction m_PlayerMovement_Movement;
+    public struct PlayerMovementActions
+    {
+        private @PlayerControls m_Wrapper;
+        public PlayerMovementActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_PlayerMovement_Movement;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerMovementActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerMovementActions instance)
+        {
+            if (m_Wrapper.m_PlayerMovementActionsCallbackInterface != null)
+            {
+                @Movement.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnMovement;
+            }
+            m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+            }
+        }
+    }
+    public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
     public interface IUIGameplayActions
     {
         void OnTestStart(InputAction.CallbackContext context);
         void OnMoveSelection(InputAction.CallbackContext context);
+    }
+    public interface IPlayerMovementActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
     }
 }
