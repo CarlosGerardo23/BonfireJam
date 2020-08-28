@@ -24,11 +24,12 @@ public class SoundEventEditor : Editor
             return;
         }
         myTarget.playAwake = EditorGUILayout.Toggle("Play on Awake", myTarget.playAwake);
+        myTarget.isRandom = EditorGUILayout.Toggle("Random clip", myTarget.isRandom);
         if (myTarget.isRandom)
             return;
         if (myTarget.collection.audioClips.Count > 1)
         {
-            myTarget.isRandom = EditorGUILayout.Toggle("Random clip", myTarget.isRandom);
+            //myTarget.isRandom = EditorGUILayout.Toggle("Random clip", myTarget.isRandom);
             myTarget.index = EditorGUILayout.IntSlider(myTarget.index, 0, myTarget.collection.audioClips.Count - 1);
         }
 
