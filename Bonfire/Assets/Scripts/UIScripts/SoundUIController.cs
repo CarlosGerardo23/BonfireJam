@@ -20,11 +20,7 @@ public class SoundUIController : UIElement
         musicUIElement.UpdateAudioSourceVolume();
         soundEffectUIElement.UpdateAudioSourceVolume();
     }
-    private void Update()
-    {
-        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
-        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName(hideAnimation));
-    }
+  
 }
 
 [System.Serializable]

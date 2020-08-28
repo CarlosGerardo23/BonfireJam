@@ -9,7 +9,7 @@ public class UIElement : MonoBehaviour
     [HideInInspector] public Animator animator;
     [HideInInspector] public string hideAnimation;
     [HideInInspector] public bool desactivate;
-
+    [HideInInspector] public PlayerControls player;
     public void DesactivateAnimation()
     {
         animator.SetTrigger("Hide");
@@ -18,13 +18,24 @@ public class UIElement : MonoBehaviour
 
     IEnumerator CheckAnimationFinish()
     {
-       
+
         //Debug.Log (animator.GetCurrentAnimatorStateInfo(0).length);
-        while(!animator.GetCurrentAnimatorStateInfo(0).IsName(hideAnimation)&&
-            animator.GetCurrentAnimatorStateInfo(0).length<=1)
-        yield return null;
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(hideAnimation) &&
+            animator.GetCurrentAnimatorStateInfo(0).length <= 1)
+            yield return null;
         yield return new WaitForSeconds(1f);
         transform.gameObject.SetActive(false);
     }
 
+    public virtual void OnEnable()
+    {
+        player.UIGameplay.Enable();
+    }
+    public virtual void OnDisable()
+    {
+        player.UIGameplay.Disable();
+    }
 }
+
+
+

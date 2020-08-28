@@ -20,10 +20,13 @@ public class UIElementEditor : Editor
         DrawDefaultInspector();
         myTarget.uiName = myTarget.transform.name;
         myTarget.uiName = EditorGUILayout.TextField("Name", myTarget.uiName);
-        myTarget.haveAnimation = EditorGUILayout.Toggle("Have exit animation", myTarget.haveAnimation);
+        myTarget.haveAnimation = EditorGUILayout.Toggle("Have animation", myTarget.haveAnimation);
         if (!myTarget.haveAnimation)
             return;
-        myTarget.animator = (Animator)EditorGUILayout.ObjectField("Animator", myTarget.animator, typeof(Animator), true);
+        if (myTarget.gameObject.GetComponent<Animator>() == null)
+            myTarget.gameObject.AddComponent(typeof(Animator));
+        myTarget.animator = myTarget.gameObject.GetComponent<Animator>();
         myTarget.hideAnimation = EditorGUILayout.TextField("Exit Animation", myTarget.hideAnimation);
+      //  myTarget.player= (PlayerControls)EditorGUILayout.ObjectField("Control", myTarget.collection, typeof(SoundCollection), true);
     }
 }
