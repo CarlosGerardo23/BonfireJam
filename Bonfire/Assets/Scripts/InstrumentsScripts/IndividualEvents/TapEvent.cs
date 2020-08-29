@@ -5,50 +5,44 @@ using UnityEngine;
 public class TapEvent : InstrumentEvent
 {
    [SerializeField] float minimumTime;
-  public bool actionConditionSucces;
 
-   public override IEnumerator ActivateEvent()
+  
+   protected override IEnumerator ActivateEvent(float timeToActive = 0.5f)
    {
-      yield return new WaitForSeconds(.5f);
-      eventObject.SetActive(true);
+      yield return new WaitForSeconds(timeToActive);
+      
+      animator.SetTrigger("activate");
       StartCoroutine(CheckEndAnimation());
       eventStarted = true;
    }
 
-   public override bool CanDoAction()
-   {
-      if (!eventStarted) return true;
-
-      if (Input.GetKeyDown(KeyCode.A) || animationOver)
-      {
-         if (actionConditionSucces && !animationOver)
-            Debug.Log("Succes");
-         else if (!animationOver)
-            Debug.Log("Faile");
-         return false;
-      }
-      return true;
-   }
+ 
 
    protected override IEnumerator CheckEndAnimation()
    {
       yield return new WaitForSeconds(minimumTime);
-      actionConditionSucces = true;
+      canDoAction = true;
       yield return new WaitForSeconds(animationTime);
-      actionConditionSucces = false;
+      canDoAction = false;
       animationOver = true;
 
    }
 
-   // Start is called before the first frame update
-   void Awake()
+   public override void DoAction()
    {
-      SetValues();
-   }
 
-   // Update is called once per frame
-   void Update()
-   {
-      CheckLifeOfEvent();
+      if (!animationOver&&eventStarted)
+      {
+         if (canDoAction)
+            actionConditionSucces = true;
+         else
+            actionConditionSucces = false;
+
+         canDoAction = false;
+         animationOver = true;
+       
+      }
+
+
    }
 }

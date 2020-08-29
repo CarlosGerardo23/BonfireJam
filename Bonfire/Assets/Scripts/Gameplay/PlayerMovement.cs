@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     private bool isTouchingGround;
 
+   //Carlos
+   
     
     private void OnEnable()
     {
@@ -46,6 +48,18 @@ public class PlayerMovement : MonoBehaviour
     {
         move = value.ReadValue<Vector2>();
     }
+
+   //Carlos
+   public void OnInteraction(InputAction.CallbackContext value)
+   {
+      if(value.performed)
+      {
+         Debug.Log("Hice Interaccion");
+      }else if(value.canceled)
+      {
+         Debug.Log("Hice Interaccion");
+      }
+   }
     private void FixedUpdate()
     {
         if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
@@ -98,6 +112,8 @@ public class PlayerMovement : MonoBehaviour
     
     private void OnCollisionStay(Collision other)
     {
+      //if(other.transform.tag== "scalableObject")
+      //Debug.Log(rb.velocity.y);
         if (other.transform.tag == "floor" && rb.velocity.y < .05 && rb.velocity.y > -.05)
         {
             jump = false;

@@ -8,16 +8,16 @@ public class MixedEvent : InstrumentEvent
    List<HoldEvent> holdEvents;
    bool activateTap;
    public bool succes;
-   public override IEnumerator ActivateEvent()
+   protected override IEnumerator ActivateEvent(float timeToActive = 0.5f)
    {
-      yield return new WaitForSeconds(.5f);
+      yield return new WaitForSeconds(timeToActive);
       foreach (var item in holdEvents)
       {
-         StartCoroutine(item.ActivateEvent());
+        // StartCoroutine(item.ActivateEvent());
       }
    }
 
-   public override bool CanDoAction()
+   public  bool CanDoAction()
    {
       foreach (var item in holdEvents)
       {
@@ -26,7 +26,7 @@ public class MixedEvent : InstrumentEvent
       }
       if (!activateTap)
       {
-         StartCoroutine(tap.ActivateEvent());
+        // StartCoroutine(tap.ActivateEvent());
          activateTap = true;
       }
       if (tap.animationOver)
@@ -47,11 +47,6 @@ public class MixedEvent : InstrumentEvent
 
    }
 
-   // Start is called before the first frame update
-   void Awake()
-   {
-      SetValues();
-   }
 
    // Update is called once per frame
    void Update()
@@ -75,5 +70,10 @@ public class MixedEvent : InstrumentEvent
             holdEvents.Add(transform.GetChild(i).gameObject.GetComponent<HoldEvent>());
          }
       }
+   }
+
+   public override void DoAction()
+   {
+      throw new System.NotImplementedException();
    }
 }

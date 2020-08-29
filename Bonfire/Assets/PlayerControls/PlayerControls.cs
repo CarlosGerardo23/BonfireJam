@@ -79,6 +79,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""45245b10-6454-4b69-936f-133961fb1918"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -103,6 +111,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Jumping"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f276da9-b25f-496f-a99b-e30bf1ede5e1"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -117,6 +136,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
         m_PlayerMovement_OnMove = m_PlayerMovement.FindAction("OnMove", throwIfNotFound: true);
         m_PlayerMovement_Jumping = m_PlayerMovement.FindAction("Jumping", throwIfNotFound: true);
+        m_PlayerMovement_Interact = m_PlayerMovement.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -209,12 +229,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private IPlayerMovementActions m_PlayerMovementActionsCallbackInterface;
     private readonly InputAction m_PlayerMovement_OnMove;
     private readonly InputAction m_PlayerMovement_Jumping;
+    private readonly InputAction m_PlayerMovement_Interact;
     public struct PlayerMovementActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerMovementActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @OnMove => m_Wrapper.m_PlayerMovement_OnMove;
         public InputAction @Jumping => m_Wrapper.m_PlayerMovement_Jumping;
+        public InputAction @Interact => m_Wrapper.m_PlayerMovement_Interact;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +252,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jumping.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnJumping;
                 @Jumping.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnJumping;
                 @Jumping.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnJumping;
+                @Interact.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -240,6 +265,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Jumping.started += instance.OnJumping;
                 @Jumping.performed += instance.OnJumping;
                 @Jumping.canceled += instance.OnJumping;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -253,5 +281,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     {
         void OnOnMove(InputAction.CallbackContext context);
         void OnJumping(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

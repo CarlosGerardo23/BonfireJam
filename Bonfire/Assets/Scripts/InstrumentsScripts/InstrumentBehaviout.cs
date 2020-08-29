@@ -13,21 +13,21 @@ public class InstrumentBehaviout : MonoBehaviour
    // Start is called before the first frame update
    void Start()
    {
-      eventFinish = false;
-      switch (instrument)
-      {
-         case TypeInstrument.TAP:
-            StartCoroutine(tap.ActivateEvent());
-            break;
-         case TypeInstrument.HOLD:
-            StartCoroutine(hold.ActivateEvent());
-            break;
-         case TypeInstrument.MIXED:
-            StartCoroutine(mixed.ActivateEvent());
-            break;
-         default:
-            break;
-      }
+      //eventFinish = false;
+      //switch (instrument)
+      //{
+      //   case TypeInstrument.TAP:
+      //      StartCoroutine(tap.ActivateEvent());
+      //      break;
+      //   case TypeInstrument.HOLD:
+      //      StartCoroutine(hold.ActivateEvent());
+      //      break;
+      //   case TypeInstrument.MIXED:
+      //      StartCoroutine(mixed.ActivateEvent());
+      //      break;
+      //   default:
+      //      break;
+      //}
    }
 
    private void Update()
@@ -37,7 +37,7 @@ public class InstrumentBehaviout : MonoBehaviour
       switch (instrument)
       {
          case TypeInstrument.TAP:
-            eventFinish = tap.CanDoAction();
+           // eventFinish = tap.CanDoAction();
             break;
          case TypeInstrument.HOLD:
             eventFinish = hold.CanDoAction();

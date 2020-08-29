@@ -1,25 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class InstrumentEvent : MonoBehaviour
 {
    public float animationTime;
-   public bool destroyIfFinish;
+
+   public bool actionConditionSucces;
+   public UnityEvent succes;
+   public UnityEvent fail;
    protected GameObject eventObject;
    protected Animator animator;
    public bool animationOver;
    protected bool eventStarted;
+   protected bool canDoAction;
+
+   virtual public void StartEvent(float timeToActive)
+   {
+      eventStarted = true;
+      eventObject.SetActive(true);
+      StartCoroutine(ActivateEvent());
+   }
    virtual protected void SetValues()
    {
-
       eventObject = transform.GetChild(0).gameObject;
+      ChildLookAtCamera();
       eventObject.SetActive(false);
       animator = transform.GetComponent<Animator>();
       animationOver = false;
       eventStarted = false;
    }
-   public abstract IEnumerator ActivateEvent();
+   protected abstract IEnumerator ActivateEvent(float timeToActive = 0.5f);
    virtual protected IEnumerator CheckEndAnimation()
    {
 
@@ -27,20 +39,46 @@ public abstract class InstrumentEvent : MonoBehaviour
       animationOver = true;
       eventStarted = false;
    }
-   public abstract bool CanDoAction();
+
 
    virtual protected void CheckLifeOfEvent()
    {
 
-      if (!CanDoAction())
+      if (!canDoAction && animationOver&&eventStarted)
       {
-         if (destroyIfFinish)
-            Destroy(gameObject);
+         if (actionConditionSucces)
+            succes.Invoke();
          else
-            SetValues();
+            fail.Invoke();
 
+         SetValues();
+         eventObject.SetActive(false);
+         eventStarted = false;
 
       }
+   }
+   virtual public void Awake()
+   {
+      SetValues();
+   }
 
+   public abstract void DoAction();
+
+   virtual public void OnTriggerEnter(Collider other)
+   {
+      if (other.gameObject.tag == "Player")
+         DoAction();
+
+   }
+
+   private void Update()
+   {
+      CheckLifeOfEvent();
+
+   }
+
+   private void ChildLookAtCamera()
+   {
+      eventObject.transform.LookAt(Camera.main.transform);
    }
 }

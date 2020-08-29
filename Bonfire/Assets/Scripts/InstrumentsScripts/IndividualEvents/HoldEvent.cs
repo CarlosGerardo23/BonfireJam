@@ -6,14 +6,14 @@ public class HoldEvent : InstrumentEvent
 {
    public bool isHolding;
    bool eventPass = false;
-   public override IEnumerator ActivateEvent()
+   protected override IEnumerator ActivateEvent(float timeToActive = 0.5f)
    {
-      yield return new WaitForSeconds(.5f);
+      yield return new WaitForSeconds(timeToActive);
       eventObject.SetActive(true);
       eventStarted = true;
    }
 
-   public override bool CanDoAction()
+   public  bool CanDoAction()
    {
       if (!eventStarted) return true;
       if (Input.GetKeyDown(KeyCode.A))
@@ -44,10 +44,7 @@ public class HoldEvent : InstrumentEvent
       eventPass = true;
    }
    // Start is called before the first frame update
-   void Awake()
-   {
-      SetValues();
-   }
+
 
    // Update is called once per frame
    void Update()
@@ -66,5 +63,10 @@ public class HoldEvent : InstrumentEvent
       }
 
       base.CheckLifeOfEvent();
+   }
+
+   public override void DoAction()
+   {
+      throw new System.NotImplementedException();
    }
 }
