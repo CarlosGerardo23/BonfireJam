@@ -44,22 +44,22 @@ public class CubeRotation : MonoBehaviour
             {
                 transform.Find("Flute").transform.GetChild(i).gameObject.SetActive(true);
             }
-            transform.Find("Drums").tag = "floor";
+            transform.Find("DrumsLogic").tag = "floor";
             transform.Find("Piano").tag = "wall";
             transform.Find("Flute").tag = "wall";
             transform.Find("Mic").tag = "wall";
         }
         else if (faceIndex == 1)
         {
-            for (int i = 0; i < transform.Find("Drums").childCount; i++)
+            for (int i = 0; i < transform.Find("DrumsLogic").childCount; i++)
             {
-                transform.Find("Drums").transform.GetChild(i).gameObject.SetActive(false);
+                transform.Find("DrumsLogic").transform.GetChild(i).gameObject.SetActive(false);
             }
             for (int i = 0; i < transform.Find("Piano").childCount; i++)
             {
                 transform.Find("Piano").transform.GetChild(i).gameObject.SetActive(true);
             }
-            transform.Find("Drums").tag = "wall";
+            transform.Find("DrumsLogic").tag = "wall";
             transform.Find("Piano").tag = "wall";
             transform.Find("Flute").tag = "floor";
             transform.Find("Mic").tag = "wall";
@@ -74,7 +74,7 @@ public class CubeRotation : MonoBehaviour
             {
                 transform.Find("Mic").transform.GetChild(i).gameObject.SetActive(true);
             }
-            transform.Find("Drums").tag = "wall";
+            transform.Find("DrumsLogic").tag = "wall";
             transform.Find("Piano").tag = "floor";
             transform.Find("Flute").tag = "wall";
             transform.Find("Mic").tag = "wall";
@@ -85,11 +85,11 @@ public class CubeRotation : MonoBehaviour
             {
                 transform.Find("Piano").transform.GetChild(i).gameObject.SetActive(false);
             }
-            for (int i = 0; i < transform.Find("Drums").childCount; i++)
+            for (int i = 0; i < transform.Find("DrumsLogic").childCount; i++)
             {
-                transform.Find("Drums").transform.GetChild(i).gameObject.SetActive(true);
+                transform.Find("DrumsLogic").transform.GetChild(i).gameObject.SetActive(true);
             }
-            transform.Find("Drums").tag = "wall";
+            transform.Find("DrumsLogic").tag = "wall";
             transform.Find("Piano").tag = "wall";
             transform.Find("Flute").tag = "wall";
             transform.Find("Mic").tag = "floor";
