@@ -52,12 +52,20 @@
             "id": "bae8e2dd-15ee-4658-ac88-be8c974fa1e7",
             "actions": [
                 {
-                    "name": "Movement",
+                    "name": "OnMove",
                     "type": "Value",
                     "id": "743a6a0d-e401-4648-9c31-aff699265210",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Jumping",
+                    "type": "Button",
+                    "id": "27458e86-9735-4b32-91b5-5ec706577636",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -68,7 +76,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "OnMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4f9c9ef-bbf1-4507-a304-38e84c3e0fd4",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jumping",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
