@@ -7,7 +7,7 @@ public class SoundEvent : MonoBehaviour
 {
     public SoundCollection collection;
     public int index;
-    public bool isRandom;
+    public bool isRandom = false;
     public bool playAwake=false;
     AudioSource source;
 
