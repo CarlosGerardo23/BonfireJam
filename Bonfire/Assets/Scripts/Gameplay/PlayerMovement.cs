@@ -68,6 +68,11 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
         if (!isJumping)
         {
 
@@ -78,13 +83,13 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Jump", true);
         }
 
-        
+
         if (jump && !isJumping)
         {
             Debug.Log("no");
             jumpRequest = true;
-            isJumping = true; 
-            
+            isJumping = true;
+
         }
 
         if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
@@ -93,19 +98,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 anim.SetTrigger("Walking");
             }
-            else 
+            else
             {
-            anim.SetTrigger("Idle");
+                anim.SetTrigger("Idle");
             }
 
-        
+
             Vector3 gravity = globalGravity * gravityScale * Vector3.up;
             GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
         }
-    }
-
-    private void FixedUpdate()
-    {
         if (jumpRequest)
         {
             Jump();
