@@ -4,28 +4,29 @@ using UnityEngine;
 
 public class OneWay : MonoBehaviour
 {
-    
-    private void Update()
-    {
+   [SerializeField] GameObject topCollider;
+   [SerializeField] GameObject wayPoint;
+   private void Update()
+   {
+
+   }
+   private void OnTriggerStay(Collider other)
+   {
+
+      if (other.tag == "Player")
+      {
         
-    }
-    private void OnTriggerStay(Collider other)
-    {
+         if (other.transform.position.y <= wayPoint.transform.position.y)
+         {
 
-        if (other.tag == "Player")
-        {
-
-            if (other.transform.position.y <= transform.Find("Top").transform.position.y )
-            {
-
-                transform.Find("Top").GetComponent<BoxCollider>().enabled = false;
-            }
-            else if (other.transform.position.y >= transform.Find("Top").transform.position.y + (transform.Find("Top").GetComponent<BoxCollider>().size.y / 2) + 0.5)
-            {
-                transform.Find("Top").GetComponent<BoxCollider>().enabled = true;
-            }
-        }
-    }
+            topCollider.GetComponent<BoxCollider>().enabled = false;
+         }
+         else //if (other.transform.position.y >= wayPoint.transform.position.y)
+         {
+            topCollider.GetComponent<BoxCollider>().enabled = true;
+         }
+      }
+   }
 
 
 
