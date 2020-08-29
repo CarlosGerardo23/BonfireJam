@@ -3319,7 +3319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityScale: 5
   _speed: 8.56
-  jumpForce: 50
+  jumpForce: 55.34
 --- !u!65 &588398812356821699
 BoxCollider:
   m_ObjectHideFlags: 0
