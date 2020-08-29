@@ -50,7 +50,7 @@ public abstract class InstrumentEvent : MonoBehaviour
             succes.Invoke();
          else
             fail.Invoke();
-
+         StopAllCoroutines();
          SetValues();
          eventObject.SetActive(false);
          eventStarted = false;
@@ -63,13 +63,6 @@ public abstract class InstrumentEvent : MonoBehaviour
    }
 
    public abstract void DoAction();
-
-   virtual public void OnTriggerEnter(Collider other)
-   {
-      if (other.gameObject.tag == "Player")
-         DoAction();
-
-   }
 
    private void Update()
    {
