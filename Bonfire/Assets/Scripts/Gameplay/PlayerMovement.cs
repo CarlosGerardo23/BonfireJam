@@ -36,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext value)
     {
-        Debug.Log(value);
         if (value.performed)
         {
             jump = true;
@@ -48,38 +47,44 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        
-        transform.position += new Vector3(move.x, 0, move.y) * Time.deltaTime * _speed;
-        if (new Vector3(move.x, 0, move.y) != Vector3.zero)
+        if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
         {
-            transform.forward = new Vector3(move.x, 0, move.y).normalized;
-        }
+            transform.position += new Vector3(move.x, 0, move.y) * Time.deltaTime * _speed;
+            if (new Vector3(move.x, 0, move.y) != Vector3.zero)
+            {
+                transform.forward = new Vector3(move.x, 0, move.y).normalized;
+            }
 
-        if (jump && isTouchingGround)
-        {
-            anim.SetBool("Jump", true);
-            Jump();
-        }
-        else if (!jump && isTouchingGround)
-        {
-            jump = false;
-            anim.SetBool("Jump", false);
+            if (jump && isTouchingGround)
+            {
+                anim.SetBool("Jump", true);
+                Jump();
+            }
+            else if (!jump && isTouchingGround)
+            {
+                jump = false;
+                anim.SetBool("Jump", false);
+            }
         }
     }
 
     void Update()
     {
-        if (move.magnitude > 0)
+        if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
         {
-            anim.SetTrigger("Walking");
-        }
-        else 
-        {
+            if (move.magnitude > 0)
+            {
+                anim.SetTrigger("Walking");
+            }
+            else 
+            {
             anim.SetTrigger("Idle");
-        }
+            }
 
-        Vector3 gravity = globalGravity * gravityScale * Vector3.up;
-        GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
+        
+            Vector3 gravity = globalGravity * gravityScale * Vector3.up;
+            GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
+        }
     }
 
     void Jump()
