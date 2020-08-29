@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -31,15 +32,23 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playerControls = new PlayerControls();
         anim = GetComponentInChildren<Animator>();
-        playerControls.PlayerMovement.Movement.performed += ctx => { move = ctx.ReadValue<Vector2>(); };
-        playerControls.PlayerMovement.Movement.canceled += ctx => { move = Vector2.zero; };
-        playerControls.PlayerMovement.Jumping.performed += ctx => { jump = true; };
     }
 
-
+    public void OnJump(InputAction.CallbackContext value)
+    {
+        Debug.Log(value);
+        if (value.performed)
+        {
+            jump = true;
+        }
+    }
+    public void OnMove(InputAction.CallbackContext value)
+    {
+        move = value.ReadValue<Vector2>();
+    }
     private void FixedUpdate()
     {
-
+        
         transform.position += new Vector3(move.x, 0, move.y) * Time.deltaTime * _speed;
         if (new Vector3(move.x, 0, move.y) != Vector3.zero)
         {
@@ -48,12 +57,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (jump && isTouchingGround)
         {
-            
             anim.SetBool("Jump", true);
             Jump();
         }
         else if (!jump && isTouchingGround)
         {
+            jump = false;
             anim.SetBool("Jump", false);
         }
     }
