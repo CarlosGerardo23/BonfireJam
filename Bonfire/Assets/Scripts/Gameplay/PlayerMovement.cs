@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed;
     private Vector2 move;
     private bool jump = false;
+    private bool grew = false;
     private Rigidbody rb;
     [SerializeField] private float jumpForce;
     private bool isTouchingGround;
@@ -49,7 +50,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
         {
-            transform.position += new Vector3(move.x, 0, move.y) * Time.deltaTime * _speed;
+            var transformDirection = transform.TransformDirection(Vector3.forward * move.magnitude * _speed * Time.deltaTime);
+            rb.MovePosition(new Vector3(transform.position.x + transformDirection.x, transform.position.y, transform.position.z + transformDirection.z));
             if (new Vector3(move.x, 0, move.y) != Vector3.zero)
             {
                 transform.forward = new Vector3(move.x, 0, move.y).normalized;
@@ -57,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (jump && isTouchingGround)
             {
+                isTouchingGround = false;
                 anim.SetBool("Jump", true);
                 Jump();
             }
@@ -89,14 +92,27 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        anim.SetTrigger("Jump");
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision other)
+    
+    private void OnCollisionStay(Collision other)
     {
-        if (other.transform.tag == "floor")
+        if (other.transform.tag == "floor" && rb.velocity.y < .05 && rb.velocity.y > -.05)
         {
+            jump = false;
+            isTouchingGround = true;
+        }
+        else if (other.transform.tag == "scalableObject" && rb.velocity.y < .05 && rb.velocity.y > -.05)
+        {
+
+            
+            if (!grew && transform.position.y > -10)
+            {
+                Debug.Log("exit col");
+                grew = true;
+                other.gameObject.GetComponent<Animator>().SetTrigger("grow");
+            }
             jump = false;
             isTouchingGround = true;
         }
@@ -106,6 +122,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.transform.tag == "floor")
         {
+            isTouchingGround = false;
+        }
+        else if (other.transform.tag == "scalableObject" && rb.velocity.y > 0)
+        {
+            grew = false;
             isTouchingGround = false;
         }
     }
