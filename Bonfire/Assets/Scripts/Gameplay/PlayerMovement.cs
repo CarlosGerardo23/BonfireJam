@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (jump && !isJumping)
         {
-            Debug.Log("no");
+
             jumpRequest = true;
             isJumping = true;
 
