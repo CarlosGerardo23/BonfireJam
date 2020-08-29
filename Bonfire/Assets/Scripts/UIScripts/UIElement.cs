@@ -19,7 +19,7 @@ public class UIElement : MonoBehaviour
     IEnumerator CheckAnimationFinish()
     {
 
-        //Debug.Log (animator.GetCurrentAnimatorStateInfo(0).length);
+        Debug.Log (animator.GetCurrentAnimatorStateInfo(0).IsName(hideAnimation));
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName(hideAnimation) &&
             animator.GetCurrentAnimatorStateInfo(0).length <= 1)
             yield return null;

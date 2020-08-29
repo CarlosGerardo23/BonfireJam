@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.Interactions;
 public class MenuGameUIController : UIElement
 {
     [SerializeField] SoundEvent soundEvent;
+    [SerializeField] UnityEvent menuClose;
     Animator animator;
     bool isMenuShown;
     Vector2 move;
@@ -34,6 +35,7 @@ public class MenuGameUIController : UIElement
             }
             else
             {
+                menuClose.Invoke();
                 animator.SetTrigger("Hide");
                 soundEvent.PlayClip();
                 isMenuShown = false;

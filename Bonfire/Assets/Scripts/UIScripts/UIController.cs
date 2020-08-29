@@ -54,9 +54,12 @@ public class UIController : MonoBehaviour
         for (int i = 0; i < uiElements.Count; i++)
         {
             if (uiElements[i].name == name)
+            {
                 uiElements[i].desactivate = false;
-            else
-                uiElements[i].desactivate = true;
+                continue;
+            }
+
+            uiElements[i].desactivate = true;
         }
         SetElements();
     }
