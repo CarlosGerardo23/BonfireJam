@@ -4,31 +4,38 @@ using UnityEngine;
 
 public class BeatController : MonoBehaviour
 {
-    [SerializeField] private float beatTempo;
-    public bool hasStarted;
+   public delegate void BeatAction();
 
-    private float timer;
+   [SerializeField] private float beatTempo;
+   public bool hasStarted;
 
-    public float BeatTempo
-    {
-        get { return beatTempo; }
-    }
-    void Start()
-    {
-        hasStarted = false;
-        beatTempo = (beatTempo / 60f);
-    }
+   private float timer;
+   public BeatAction action;
+   public float BeatTempo {
+      get { return beatTempo; }
+   }
+   void Start()
+   {
+      hasStarted = false;
+      beatTempo = (beatTempo / 60f);
+   }
 
-    private void Update()
-    {
-        if (hasStarted)
-        {
-            
-            
-            GetComponent<AudioSource>().Play();
-            hasStarted = false;
-            
-        }
-    }
+
+   private void FixedUpdate()
+   {
+
+      if (hasStarted)
+      {
+
+         if (timer >= beatTempo)
+         {
+            action.Invoke();
+            timer = 0;
+         }
+
+
+         timer += Time.deltaTime;
+      }
+   }
 
 }
