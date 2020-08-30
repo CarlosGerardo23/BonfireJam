@@ -17,6 +17,7 @@ public class TapEvent : InstrumentEvent
       defaultrCircleColor = circleReference.color;
 
       eventStarted = true;
+        ChildLookAtCamera();
    }
 
 

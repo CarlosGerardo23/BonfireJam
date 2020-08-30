@@ -30,6 +30,7 @@ public class TransitionCube : MonoBehaviour
     {
         if (isTransitioning)
         {
+            FindObjectOfType<RhythmGameManager>().hasStarted = false;
             isTransitioning = false;
             PlayerTransitionCube[] players = FindObjectsOfType<PlayerTransitionCube>();
             foreach(PlayerTransitionCube p in players)
