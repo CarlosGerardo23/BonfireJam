@@ -50,6 +50,10 @@ public class InstrumentSequence : MonoBehaviour
          Debug.LogError("Sequence not initialize");
          return;
       }
+      if (numberOfEvents > 3)
+        {
+            numberOfEvents = 3;
+        }
       int numberOfEventsSelected = Random.Range(1, numberOfEvents + 1);
       int sequenceIndex;
       for (int i = 0; i < numberOfEventsSelected; i++)

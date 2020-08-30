@@ -165,6 +165,26 @@ public class PlayerMovement : MonoBehaviour
 
                 }
             }
+            else if (name[0] == '3')
+            {
+                if (Input.GetKey(KeyCode.Joystick3Button0) && !isJumping)
+                {
+
+                    jumpRequest = true;
+                    isJumping = true;
+
+                }
+            }
+            else if (name[0] == '4')
+            {
+                if (Input.GetKey(KeyCode.Joystick4Button0) && !isJumping)
+                {
+
+                    jumpRequest = true;
+                    isJumping = true;
+
+                }
+            }
 
 
 

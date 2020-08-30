@@ -39,6 +39,7 @@ public class PlayerSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (numberOfPlayersReady >= 2)
         {
             transform.Find("ReadyText").GetComponent<Text>().text = numberOfPlayersReady + " Players Ready! \n Press Start to begin!";
@@ -46,6 +47,11 @@ public class PlayerSelection : MonoBehaviour
 
             if (Input.GetAxis("Start") > 0 && !started)
             {
+                var references = Resources.FindObjectsOfTypeAll<InstrumentSequence>();
+                foreach (InstrumentSequence r in references)
+                {
+                    r.numberOfEvents = numberOfPlayersReady;
+                }
                 started = true;
                 transform.Find("ReadyText").gameObject.SetActive(false);
                 transform.Find("ReadyTextShadow").gameObject.SetActive(false);

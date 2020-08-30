@@ -20,6 +20,10 @@ public class StartGameMenu : UIElement
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Joystick1Button1))
+        {
+            Application.Quit();
+        }
         OnStart();
     }
 

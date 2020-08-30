@@ -40,7 +40,7 @@ public class ScoreScript : MonoBehaviour
                 }
             }
 
-            if (score > 6 && !rotated)
+            if (score > 10 && !rotated)
             {
                 rotated = true;
                 FindObjectOfType<TransitionCube>().IsTransitioning = true;
