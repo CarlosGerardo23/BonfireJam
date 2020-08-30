@@ -5,11 +5,12 @@ using UnityEngine;
 public class BeatController : MonoBehaviour
 {
    public delegate void BeatAction();
+
    [SerializeField] private float beatTempo;
    public bool hasStarted;
-   public BeatAction action;
-   private float timer;
 
+   private float timer;
+   public BeatAction action;
    public float BeatTempo {
       get { return beatTempo; }
    }
@@ -19,13 +20,21 @@ public class BeatController : MonoBehaviour
       beatTempo = (beatTempo / 60f);
    }
 
-   private void Update()
+
+   private void FixedUpdate()
    {
+
       if (hasStarted)
       {
-         GetComponent<AudioSource>().Play();
-         hasStarted = false;
 
+         if (timer >= beatTempo)
+         {
+            action.Invoke();
+            timer = 0;
+         }
+
+
+         timer += Time.deltaTime;
       }
    }
 
