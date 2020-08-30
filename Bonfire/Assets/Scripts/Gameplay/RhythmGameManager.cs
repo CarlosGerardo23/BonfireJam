@@ -18,12 +18,9 @@ public class RhythmGameManager : MonoBehaviour
     {
         if (hasStarted)
         {
-
-
             beat.GetComponent<AudioSource>().Play();
             hasStarted = false;
             beat.hasStarted = true;
-
         }
     }
 
