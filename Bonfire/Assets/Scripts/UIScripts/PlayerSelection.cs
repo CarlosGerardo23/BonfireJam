@@ -150,6 +150,7 @@ public class PlayerSelection : MonoBehaviour
                 FindObjectOfType<RhythmGameManager>().hasStarted = true;
                 transform.Find("Go").gameObject.SetActive(false);
                 transform.Find("Cloud").gameObject.SetActive(false);
+                transform.parent.GetComponent<UIController>().ChangeByName("GamePlay");
             }
         }
 

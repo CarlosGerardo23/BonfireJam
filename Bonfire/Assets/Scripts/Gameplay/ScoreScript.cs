@@ -43,13 +43,16 @@ public class ScoreScript : MonoBehaviour
 
     public void AddScore()
     {
+        
         GetComponent<SoundEvent>().PlayClipByIndex(0);
         score++;
+        FindObjectOfType<GameplayUI>().transform.GetChild(0).transform.GetChild(score - 1).GetComponent<Animator>().SetBool("gone", false);
     }
 
     public void SubtractScore()
     {
         GetComponent<SoundEvent>().PlayClipByIndex(1);
         score--;
+        FindObjectOfType<GameplayUI>().transform.GetChild(0).transform.GetChild(score).GetComponent<Animator>().SetBool("gone", true);
     }
 }
