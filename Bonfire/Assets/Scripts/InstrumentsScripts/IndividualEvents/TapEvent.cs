@@ -26,7 +26,7 @@ public class TapEvent : InstrumentEvent
       {
          canDoAction = true;
       }
-      if(compare.localScale.magnitude < maxScale.magnitude)
+      if(compare.localScale.magnitude <= maxScale.magnitude)
       {
          animationOver = true;
          canDoAction = false;

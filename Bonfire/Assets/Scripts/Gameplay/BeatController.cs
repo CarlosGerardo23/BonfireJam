@@ -8,7 +8,6 @@ public class BeatController : MonoBehaviour
 
    [SerializeField] private float beatTempo;
    public bool hasStarted;
-
    private float timer;
    public BeatAction action;
    public float BeatTempo {

@@ -147,6 +147,7 @@ public class PlayerSelection : MonoBehaviour
             {
                 goSound = true;
                 FindObjectOfType<BeatController>().hasStarted = true;
+                FindObjectOfType<RhythmGameManager>().hasStarted = true;
                 transform.Find("Go").gameObject.SetActive(false);
                 transform.Find("Cloud").gameObject.SetActive(false);
             }
