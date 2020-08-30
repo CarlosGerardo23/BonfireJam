@@ -20,9 +20,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     private bool isTouchingGround;
 
+    public bool gameFinished;
+
     private float stepsSeparationTimer;
     public float stepsSeparationTime;
     private bool step1;
+    private bool finishedSound;
 
 
     public Animator Anim
@@ -46,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        finishedSound = false;
+        gameFinished = false;
         soundEvent = GetComponent<SoundEvent>();
         jumpRequest = false;
         isJumping = true;
@@ -74,95 +79,122 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        OnMove();
-        if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
+        if (!gameFinished)
         {
-            if (move.magnitude > 0)
+            OnMove();
+            if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
             {
-                if (stepsSeparationTimer > stepsSeparationTime && !isJumping)
+                if (move.magnitude > 0)
                 {
-                    stepsSeparationTimer = 0;
-                    if (step1)
+                    if (stepsSeparationTimer > stepsSeparationTime && !isJumping)
                     {
-                        step1 = false;
-                        PlaySound(1);
+                        stepsSeparationTimer = 0;
+                        if (step1)
+                        {
+                            step1 = false;
+                            PlaySound(1);
+                        }
+                        else
+                        {
+                            step1 = true;
+                            PlaySound(2);
+                        }
                     }
-                    else
-                    {
-                        step1 = true;
-                        PlaySound(2);
-                    }
+                    anim.SetTrigger("Walking");
                 }
-                anim.SetTrigger("Walking");
+                else
+                {
+                    anim.SetTrigger("Idle");
+                }
             }
-            else
+        }
+        else
+        {
+            if (FindObjectOfType<ScoreScript>().score >= 15)
             {
-                anim.SetTrigger("Idle");
+                if (!finishedSound)
+                {
+                    finishedSound = true;
+                    soundEvent.PlayClipByIndex(5);
+                }
+                anim.SetTrigger("win");
+            }
+            else if (FindObjectOfType<ScoreScript>().score <= 0)
+            {
+                if (!finishedSound)
+                {
+                    finishedSound = true;
+                    soundEvent.PlayClipByIndex(4);
+                }
+                anim.SetTrigger("loose");
             }
         }
     }
 
     private void FixedUpdate()
     {
-        if (!isJumping)
+        if (!gameFinished)
         {
-
-            anim.SetBool("Jump", false);
-        }
-        else
-        {
-            anim.SetBool("Jump", true);
-        }
-
-        if (name[0] == '1')
-        {
-            if (Input.GetKey(KeyCode.Joystick1Button0) && !isJumping)
+            if (!isJumping)
             {
 
-                jumpRequest = true;
-                isJumping = true;
-
+                anim.SetBool("Jump", false);
             }
-        }
-        else if (name[0] == '2')
-        {
-            if (Input.GetKey(KeyCode.Joystick2Button0) && !isJumping)
+            else
+            {
+                anim.SetBool("Jump", true);
+            }
+
+            if (name[0] == '1')
+            {
+                if (Input.GetKey(KeyCode.Joystick1Button0) && !isJumping)
+                {
+
+                    jumpRequest = true;
+                    isJumping = true;
+
+                }
+            }
+            else if (name[0] == '2')
+            {
+                if (Input.GetKey(KeyCode.Joystick2Button0) && !isJumping)
+                {
+
+                    jumpRequest = true;
+                    isJumping = true;
+
+                }
+            }
+
+
+
+            stepsSeparationTimer += Time.deltaTime;
+
+            if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
             {
 
-                jumpRequest = true;
-                isJumping = true;
 
+
+                Vector3 gravity = globalGravity * gravityScale * Vector3.up;
+                GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
             }
-        }
-
-        
-
-        stepsSeparationTimer += Time.deltaTime;
-
-        if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
-        {
-            
-
-
-            Vector3 gravity = globalGravity * gravityScale * Vector3.up;
-            GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
-        }
-        if (jumpRequest)
-        {
-            Jump();
-            jumpRequest = false;
-        }
-
-        if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
-        {
-            var transformDirection = transform.TransformDirection(Vector3.forward * move.magnitude * _speed * Time.deltaTime);
-            rb.MovePosition(new Vector3(transform.position.x + transformDirection.x, transform.position.y, transform.position.z + transformDirection.z));
-            if (new Vector3(move.x, 0, move.y) != Vector3.zero)
+            if (jumpRequest)
             {
-                transform.forward = new Vector3(move.x, 0, move.y).normalized;
+                Jump();
+                jumpRequest = false;
             }
 
-            
+            if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
+            {
+                var transformDirection = transform.TransformDirection(Vector3.forward * move.magnitude * _speed * Time.deltaTime);
+                rb.MovePosition(new Vector3(transform.position.x + transformDirection.x, transform.position.y, transform.position.z + transformDirection.z));
+                if (new Vector3(move.x, 0, move.y) != Vector3.zero)
+                {
+                    transform.forward = new Vector3(move.x, 0, move.y).normalized;
+                }
+
+
+            }
         }
     }
 

@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class RhythmGameManager : MonoBehaviour
 {
-   [SerializeField] BeatController beat;
-   [SerializeField] InstrumentSequence sequence;
-   bool hasStarted = false;
+    [SerializeField] BeatController beat;
+    [SerializeField] InstrumentSequence sequence;
+    public bool hasStarted = false;
 
-   private void Awake()
-   {
+    private void Awake()
+    {
 
-      beat.action = sequence.DoOneEvent;
-   }
+        beat.action = sequence.DoOneEvent;
+    }
 
-   private void Update()
-   {
-      if (!hasStarted)
-      {
-         if (Input.anyKeyDown)
-         {
+    private void Update()
+    {
+        if (hasStarted)
+        {
+
+
             beat.GetComponent<AudioSource>().Play();
-            hasStarted = true;
+            hasStarted = false;
             beat.hasStarted = true;
-         }
-      }
-   }
+
+        }
+    }
 
 }

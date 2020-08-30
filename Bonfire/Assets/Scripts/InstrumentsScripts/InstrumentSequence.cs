@@ -52,7 +52,7 @@ public class InstrumentSequence : MonoBehaviour
 
       int sequenceIndex = Random.Range(0, sequence.Count);
       InstrumentEvent temp = sequence[sequenceIndex];
-      if (temp.eventStarted)
+      if (temp==null||temp.eventStarted)
          return;
       sequence.Remove(temp);
      

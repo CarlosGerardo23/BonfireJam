@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -21,7 +22,10 @@ public class UIController : MonoBehaviour
         firstScene.desactivate = false;
         SetElements();
     }
-
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
+    }
     private void SetElements()
     {
         foreach (var item in uiElements)

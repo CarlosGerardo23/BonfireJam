@@ -24,6 +24,7 @@ public abstract class InstrumentEvent : MonoBehaviour
    }
    virtual protected void SetValues()
    {
+        actionConditionSucces = false;
       eventObject = transform.GetChild(0).gameObject;
       ChildLookAtCamera();
       eventObject.SetActive(false);
