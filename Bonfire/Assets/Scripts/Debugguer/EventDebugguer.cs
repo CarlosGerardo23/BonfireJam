@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class EventDebugguer : MonoBehaviour
 {
+   [SerializeField] RhythmGameManager testManager;
+
+   private void Update()
+   {
+      if (Input.GetKeyDown(KeyCode.J))
+      {
+         testManager.hasStarted = true;
+      }
+   }
    public void SuccesMessage()
    {
       Debug.Log("Succes");

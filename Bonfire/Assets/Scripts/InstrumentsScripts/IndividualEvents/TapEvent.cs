@@ -7,11 +7,12 @@ public class TapEvent : InstrumentEvent
    [SerializeField] Vector3 minimumScale;
    [SerializeField] Vector3 maxScale;
    [SerializeField] Color bigguerCircleColor;
-   [SerializeField] SpriteRenderer circleReference;
+   SpriteRenderer circleReference;
    Color defaultrCircleColor;
 
    protected override void ActivateEvent()
    {
+      circleReference = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
       animator.SetTrigger("activate");
       defaultrCircleColor = circleReference.color;
 
@@ -22,6 +23,8 @@ public class TapEvent : InstrumentEvent
 
    protected override void CheckEndAnimation()
    {
+      if (circleReference != null) circleReference.color = defaultrCircleColor;
+
       if (!eventStarted) return;
       Transform compare = eventObject.transform.GetChild(0);
       if (compare.localScale.magnitude < minimumScale.magnitude
@@ -38,7 +41,7 @@ public class TapEvent : InstrumentEvent
          CheckLifeOfEvent();
 
       }
-      circleReference.color = defaultrCircleColor;
+
 
    }
 
@@ -55,7 +58,7 @@ public class TapEvent : InstrumentEvent
          canDoAction = false;
          animationOver = true;
          CheckLifeOfEvent();
-
+         circleReference.color = defaultrCircleColor;
       }
 
 
