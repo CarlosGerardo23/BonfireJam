@@ -8,9 +8,9 @@ public class MixedEvent : InstrumentEvent
    List<HoldEvent> holdEvents;
    bool activateTap;
    public bool succes;
-   protected override IEnumerator ActivateEvent(float timeToActive = 0.5f)
+   protected override void ActivateEvent()
    {
-      yield return new WaitForSeconds(timeToActive);
+    
       foreach (var item in holdEvents)
       {
         // StartCoroutine(item.ActivateEvent());
@@ -73,6 +73,11 @@ public class MixedEvent : InstrumentEvent
    }
 
    public override void DoAction()
+   {
+      throw new System.NotImplementedException();
+   }
+
+   protected override void CheckEndAnimation()
    {
       throw new System.NotImplementedException();
    }
