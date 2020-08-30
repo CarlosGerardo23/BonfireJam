@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]private float gravityScale = 1.0f;
     private static float globalGravity = -9.81f;
     private Animator anim;
+    private SoundEvent soundEvent;
     public PlayerControls playerControls;
     [SerializeField] private float _speed;
     private Vector2 move;
@@ -18,6 +19,10 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private float jumpForce;
     private bool isTouchingGround;
+
+    private float stepsSeparationTimer;
+    public float stepsSeparationTime;
+    private bool step1;
 
 
     public Animator Anim
@@ -41,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        soundEvent = GetComponent<SoundEvent>();
         jumpRequest = false;
         isJumping = true;
         rb = GetComponent<Rigidbody>();
@@ -64,11 +70,35 @@ public class PlayerMovement : MonoBehaviour
     {
         move = value.ReadValue<Vector2>();
     }
-    
-    
+
+
     void Update()
     {
-        
+        if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
+        {
+            if (move.magnitude > 0)
+            {
+                if (stepsSeparationTimer > stepsSeparationTime && !isJumping)
+                {
+                    stepsSeparationTimer = 0;
+                    if (step1)
+                    {
+                        step1 = false;
+                        PlaySound(1);
+                    }
+                    else
+                    {
+                        step1 = true;
+                        PlaySound(2);
+                    }
+                }
+                anim.SetTrigger("Walking");
+            }
+            else
+            {
+                anim.SetTrigger("Idle");
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -92,16 +122,11 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+        stepsSeparationTimer += Time.deltaTime;
+
         if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
         {
-            if (move.magnitude > 0)
-            {
-                anim.SetTrigger("Walking");
-            }
-            else
-            {
-                anim.SetTrigger("Idle");
-            }
+            
 
 
             Vector3 gravity = globalGravity * gravityScale * Vector3.up;
@@ -126,8 +151,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void PlaySound(int index)
+    {
+        soundEvent.PlayClipByIndex(index);
+    }
+
     void Jump()
     {
+        soundEvent.PlayClipByIndex(0);
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 

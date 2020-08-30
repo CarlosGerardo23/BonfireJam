@@ -28,6 +28,7 @@ public class CubeRotation : MonoBehaviour
 
         if (rotate)
         {
+            GetComponent<SoundEvent>().PlayClip();
             faceIndex++;
             rotate = false;
             GetComponent<Animator>().SetTrigger("rotate");
