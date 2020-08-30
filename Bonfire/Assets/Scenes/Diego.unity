@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5171874, g: 0.37541887, b: 0.5572844, a: 1}
+  m_IndirectSpecularColor: {r: 0.51718736, g: 0.3754186, b: 0.55728436, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12068,8 +12068,8 @@ MonoBehaviour:
   playerImageHolder: {fileID: 1546200552}
   player1RawImage: {fileID: 1075381737}
   player2RawImage: {fileID: 1286665331}
-  player3RawImage: {fileID: 1122249429}
-  player4RawImage: {fileID: 0}
+  player3RawImage: {fileID: 36487720}
+  player4RawImage: {fileID: 1122249429}
   magToScale: 713.1648
 --- !u!114 &2432380128294820474
 MonoBehaviour:
