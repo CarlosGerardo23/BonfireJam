@@ -604,14 +604,18 @@ PrefabInstance:
     - target: {fileID: 3402698679686782169, guid: d2839752357bca64b9b119dcd5c3ed66, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 110988180aa084846ab2d2248756c661, type: 3}
+      objectReference: {fileID: 8300000, guid: 6136cfd406da9b04ab44cee31901aa54, type: 3}
     - target: {fileID: 3402698679686782170, guid: d2839752357bca64b9b119dcd5c3ed66, type: 3}
       propertyPath: m_Name
       value: MusicBeatManager
       objectReference: {fileID: 0}
     - target: {fileID: 3402698679686782171, guid: d2839752357bca64b9b119dcd5c3ed66, type: 3}
       propertyPath: beatTempo
-      value: 140
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402698679686782171, guid: d2839752357bca64b9b119dcd5c3ed66, type: 3}
+      propertyPath: hasStarted
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2839752357bca64b9b119dcd5c3ed66, type: 3}
@@ -3445,7 +3449,7 @@ Transform:
   - {fileID: 599402689966753595}
   - {fileID: 599402691172899949}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &3736667392427613934
 BoxCollider:
@@ -9080,7 +9084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e9cbf46c9e9afc4aafe484aafaccd39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationTime: 2
+  animationTime: 1
   actionConditionSucces: 0
   succes:
     m_PersistentCalls:
