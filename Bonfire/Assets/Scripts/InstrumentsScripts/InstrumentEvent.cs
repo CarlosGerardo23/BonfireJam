@@ -13,14 +13,14 @@ public abstract class InstrumentEvent : MonoBehaviour
    protected GameObject eventObject;
    protected Animator animator;
    public bool animationOver;
-   protected bool eventStarted;
+   public bool eventStarted;
    protected bool canDoAction;
 
-   virtual public void StartEvent(float timeToActive)
+   virtual public void StartEvent()
    {
       eventStarted = true;
       eventObject.SetActive(true);
-      StartCoroutine(ActivateEvent());
+      ActivateEvent();
    }
    virtual protected void SetValues()
    {
@@ -31,26 +31,21 @@ public abstract class InstrumentEvent : MonoBehaviour
       animationOver = false;
       eventStarted = false;
    }
-   protected abstract IEnumerator ActivateEvent(float timeToActive = 0.5f);
-   virtual protected IEnumerator CheckEndAnimation()
-   {
+   protected abstract void ActivateEvent();
+   protected abstract void CheckEndAnimation();
 
-      yield return new WaitForSeconds(animationTime);
-      animationOver = true;
-      eventStarted = false;
-   }
 
 
    virtual protected void CheckLifeOfEvent()
    {
 
-      if (!canDoAction && animationOver&&eventStarted)
+      if (!canDoAction && animationOver && eventStarted)
       {
          if (actionConditionSucces)
             succes.Invoke();
          else
             fail.Invoke();
-         StopAllCoroutines();
+
          SetValues();
          eventObject.SetActive(false);
          eventStarted = false;
@@ -66,7 +61,7 @@ public abstract class InstrumentEvent : MonoBehaviour
 
    private void Update()
    {
-      CheckLifeOfEvent();
+      CheckEndAnimation();
 
    }
 
