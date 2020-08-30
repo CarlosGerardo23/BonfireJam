@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e487adf0814fb748880d6f1bb61d610, type: 3}
+  m_Name: CubeSounds
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 6d6e8a58021e9da4db10060058f144ec, type: 3}
+  volume: 0.572
