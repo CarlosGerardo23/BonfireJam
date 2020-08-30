@@ -10,7 +10,7 @@ public class RhythmGameManager : MonoBehaviour
 
    private void Awake()
    {
-      beat.action = sequence.DoOneEvent;
+      //beat.action = sequence.DoOneEvent;
    }
 
    private void Update()
