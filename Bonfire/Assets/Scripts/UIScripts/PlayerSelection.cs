@@ -10,56 +10,35 @@ public class PlayerSelection : MonoBehaviour
     [SerializeField] GameObject playerCard3;
     [SerializeField] GameObject playerCard4;
 
+    public GameObject player1Prefab;
+    public GameObject player2Prefab;
+
     [SerializeField] GameObject startGame;
 
-    [SerializeField] UnityEvent playerSelected;
-    int currentPalyer = 0;
+    bool player1Selected;
+    bool player2Selected;
+
+    private void Awake()
+    {
+        player1Selected = false;
+    }
     // Update is called once per frame
     void Update()
     {
-        startGame.SetActive(false);
-        CheckCardSelection();
-        if (currentPalyer >= 2)
-            CanStartGame();
-    }
-
-    private void CanStartGame()
-    {
-        startGame.SetActive(true);
-    }
-
-    private void CheckCardSelection()
-    {
-        bool isPlayerSelecetd = false;
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Joystick1Button0) && !player1Selected)
         {
+            player1Selected = true;
+            Instantiate(player1Prefab, player1Prefab.transform.position, player1Prefab.transform.rotation);
             playerCard1.GetComponent<Animator>().SetBool("activate", true);
-            currentPalyer++;
-            isPlayerSelecetd = true;
-        }
+            GetComponent<SoundEvent>().PlayClipByIndex(2);
 
-        if (Input.GetKeyDown(KeyCode.W))
+        }
+        if (Input.GetKeyDown(KeyCode.Joystick2Button0) && !player2Selected)
         {
+            player2Selected = true;
+            Instantiate(player2Prefab, player2Prefab.transform.position, player2Prefab.transform.rotation);
             playerCard2.GetComponent<Animator>().SetBool("activate", true);
-            currentPalyer++;
-            isPlayerSelecetd = true;
+            GetComponent<SoundEvent>().PlayClipByIndex(2);
         }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            playerCard3.GetComponent<Animator>().SetBool("activate", true);
-            currentPalyer++;
-            isPlayerSelecetd = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            playerCard4.GetComponent<Animator>().SetBool("activate", true);
-            currentPalyer++;
-            isPlayerSelecetd = true;
-        }
-        if (isPlayerSelecetd)        
-            playerSelected.Invoke();
-        
     }
 }
