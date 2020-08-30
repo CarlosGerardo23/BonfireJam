@@ -66,7 +66,7 @@ public abstract class InstrumentEvent : MonoBehaviour
 
    }
 
-   private void ChildLookAtCamera()
+   public void ChildLookAtCamera()
    {
       eventObject.transform.LookAt(Camera.main.transform);
    }

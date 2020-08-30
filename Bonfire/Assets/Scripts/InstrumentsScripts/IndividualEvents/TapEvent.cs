@@ -11,8 +11,8 @@ public class TapEvent : InstrumentEvent
    protected override void ActivateEvent()
    {
       animator.SetTrigger("activate");
-
-      eventStarted = true;
+        ChildLookAtCamera();
+       eventStarted = true;
    }
 
 

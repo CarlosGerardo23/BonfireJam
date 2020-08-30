@@ -5,7 +5,7 @@ using UnityEngine;
 public class RhythmGameManager : MonoBehaviour
 {
     [SerializeField] BeatController beat;
-    [SerializeField] InstrumentSequence sequence;
+    public InstrumentSequence sequence;
     public bool hasStarted = false;
 
     private void Awake()
@@ -25,6 +25,11 @@ public class RhythmGameManager : MonoBehaviour
             beat.hasStarted = true;
 
         }
+    }
+
+    public void AskForEvent()
+    {
+        beat.action = sequence.DoOneEvent;
     }
 
 }

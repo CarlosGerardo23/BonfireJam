@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CubeRotation : MonoBehaviour
 {
-    [SerializeField]private bool rotate;
+    [SerializeField] private bool rotate;
     private int faceIndex;
 
-    public bool Rotate 
-    { 
+    public bool Rotate
+    {
         get { return rotate; }
         set { rotate = value; }
     }
@@ -41,13 +41,13 @@ public class CubeRotation : MonoBehaviour
             {
                 transform.Find("Mic").transform.GetChild(i).gameObject.SetActive(false);
             }
-            for (int i = 0; i < transform.Find("Flute").childCount; i++)
+            for (int i = 0; i < transform.Find("PianoLogic").childCount; i++)
             {
-                transform.Find("Flute").transform.GetChild(i).gameObject.SetActive(true);
+                transform.Find("PianoLogic").transform.GetChild(i).gameObject.SetActive(true);
             }
             transform.Find("DrumsLogic").tag = "floor";
-            transform.Find("Piano").tag = "wall";
-            transform.Find("Flute").tag = "wall";
+            transform.Find("Mic").tag = "wall";
+            transform.Find("Mic").tag = "wall";
             transform.Find("Mic").tag = "wall";
         }
         else if (faceIndex == 1)
@@ -56,43 +56,43 @@ public class CubeRotation : MonoBehaviour
             {
                 transform.Find("DrumsLogic").transform.GetChild(i).gameObject.SetActive(false);
             }
-            for (int i = 0; i < transform.Find("Piano").childCount; i++)
+            for (int i = 0; i < transform.Find("Mic").childCount; i++)
             {
-                transform.Find("Piano").transform.GetChild(i).gameObject.SetActive(true);
+                transform.Find("Mic").transform.GetChild(i).gameObject.SetActive(true);
             }
             transform.Find("DrumsLogic").tag = "wall";
-            transform.Find("Piano").tag = "wall";
-            transform.Find("Flute").tag = "floor";
+            transform.Find("Mic").tag = "wall";
+            transform.Find("Mic").tag = "floor";
             transform.Find("Mic").tag = "wall";
         }
         else if (faceIndex == 2)
         {
-            for (int i = 0; i < transform.Find("Flute").childCount; i++)
+            for (int i = 0; i < transform.Find("PianoLogic").childCount; i++)
             {
-                transform.Find("Flute").transform.GetChild(i).gameObject.SetActive(false);
+                transform.Find("PianoLogic").transform.GetChild(i).gameObject.SetActive(false);
             }
             for (int i = 0; i < transform.Find("Mic").childCount; i++)
             {
                 transform.Find("Mic").transform.GetChild(i).gameObject.SetActive(true);
             }
             transform.Find("DrumsLogic").tag = "wall";
-            transform.Find("Piano").tag = "floor";
-            transform.Find("Flute").tag = "wall";
+            transform.Find("Mic").tag = "floor";
+            transform.Find("Mic").tag = "wall";
             transform.Find("Mic").tag = "wall";
         }
         else if (faceIndex == 3)
         {
-            for (int i = 0; i < transform.Find("Piano").childCount; i++)
+            for (int i = 0; i < transform.Find("Mic").childCount; i++)
             {
-                transform.Find("Piano").transform.GetChild(i).gameObject.SetActive(false);
+                transform.Find("Mic").transform.GetChild(i).gameObject.SetActive(false);
             }
             for (int i = 0; i < transform.Find("DrumsLogic").childCount; i++)
             {
                 transform.Find("DrumsLogic").transform.GetChild(i).gameObject.SetActive(true);
             }
             transform.Find("DrumsLogic").tag = "wall";
-            transform.Find("Piano").tag = "wall";
-            transform.Find("Flute").tag = "wall";
+            transform.Find("Mic").tag = "wall";
+            transform.Find("Mic").tag = "wall";
             transform.Find("Mic").tag = "floor";
         }
 
@@ -101,8 +101,14 @@ public class CubeRotation : MonoBehaviour
     IEnumerator DropBoys()
     {
         yield return new WaitForSeconds(.5f);
+        if (faceIndex == 1)
+        {
+            FindObjectOfType<RhythmGameManager>().sequence = GameObject.Find("PianoLogic").GetComponent<InstrumentSequence>();
+        }
+        FindObjectOfType<RhythmGameManager>().hasStarted = true;
+        FindObjectOfType<RhythmGameManager>().AskForEvent();
         FindObjectOfType<TransitionCube>().Drop = true;
     }
 
-   
+
 }
