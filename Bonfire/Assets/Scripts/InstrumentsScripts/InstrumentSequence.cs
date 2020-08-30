@@ -52,7 +52,7 @@ public class InstrumentSequence : MonoBehaviour
       }
       int numberOfEventsSelected = Random.Range(1, numberOfEvents);
       int sequenceIndex;
-      for (int i = 0; i < 4; i++)
+      for (int i = 0; i < numberOfEventsSelected; i++)
       {
           sequenceIndex = Random.Range(0, sequence.Count);
          InstrumentEvent temp = sequence[sequenceIndex];
