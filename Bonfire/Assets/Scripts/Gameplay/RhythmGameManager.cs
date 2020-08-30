@@ -6,11 +6,12 @@ public class RhythmGameManager : MonoBehaviour
 {
    [SerializeField] BeatController beat;
    [SerializeField] InstrumentSequence sequence;
-   bool hasStarted=false;
+   bool hasStarted = false;
 
    private void Awake()
    {
-      //beat.action = sequence.DoOneEvent;
+
+      beat.action = sequence.DoOneEvent;
    }
 
    private void Update()
