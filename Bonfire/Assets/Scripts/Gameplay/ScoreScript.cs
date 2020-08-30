@@ -5,9 +5,11 @@ using UnityEngine;
 public class ScoreScript : MonoBehaviour
 {
     public int score;
+    bool rotated;
     // Start is called before the first frame update
     void Start()
     {
+        rotated = false;
         score = 5;
     }
 
@@ -36,6 +38,12 @@ public class ScoreScript : MonoBehaviour
                 {
                     FindObjectOfType<UIController>().ChangeByName("WonScreen");
                 }
+            }
+
+            if (score > 6 && !rotated)
+            {
+                rotated = true;
+                FindObjectOfType<TransitionCube>().IsTransitioning = true;
             }
 
         }
