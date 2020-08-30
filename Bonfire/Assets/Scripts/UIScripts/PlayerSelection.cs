@@ -20,6 +20,10 @@ public class PlayerSelection : MonoBehaviour
     int numberOfPlayersReady;
 
     bool started;
+    bool oneSound;
+    bool twoSound;
+    bool threeSound;
+    bool goSound;
 
     bool player1Selected;
     bool player2Selected;
@@ -50,8 +54,8 @@ public class PlayerSelection : MonoBehaviour
                 playerCard3.SetActive(false);
                 playerCard4.SetActive(false);
                 transform.parent.GetComponent<AudioSource>().Stop();
-                FindObjectOfType<BeatController>().hasStarted = true;
                 transform.Find("One").gameObject.SetActive(true);
+                GetComponent<SoundEvent>().PlayClipByIndex(4);
             }
         }
 
@@ -106,8 +110,10 @@ public class PlayerSelection : MonoBehaviour
 
         if (transform.Find("One") != null)
         {
-            if (transform.Find("One").GetComponent<RectTransform>().sizeDelta.magnitude >= magToScale)
+            if (transform.Find("One").GetComponent<RectTransform>().sizeDelta.magnitude >= magToScale && !oneSound)
             {
+                oneSound = true;
+                GetComponent<SoundEvent>().PlayClipByIndex(4);
                 transform.Find("One").gameObject.SetActive(false);
                 transform.Find("Two").gameObject.SetActive(true);
             }
@@ -115,8 +121,10 @@ public class PlayerSelection : MonoBehaviour
 
         if (transform.Find("Two") != null)
         {
-            if (transform.Find("Two").GetComponent<RectTransform>().sizeDelta.magnitude > magToScale)
+            if (transform.Find("Two").GetComponent<RectTransform>().sizeDelta.magnitude > magToScale && !twoSound)
             {
+                twoSound = true;
+                GetComponent<SoundEvent>().PlayClipByIndex(4);
                 transform.Find("Two").gameObject.SetActive(false);
                 transform.Find("Three").gameObject.SetActive(true);
             }
@@ -124,8 +132,10 @@ public class PlayerSelection : MonoBehaviour
 
         if (transform.Find("Three") != null)
         {
-            if (transform.Find("Three").GetComponent<RectTransform>().sizeDelta.magnitude > magToScale)
+            if (transform.Find("Three").GetComponent<RectTransform>().sizeDelta.magnitude > magToScale && !threeSound)
             {
+                threeSound = true;
+                GetComponent<SoundEvent>().PlayClipByIndex(5);
                 transform.Find("Three").gameObject.SetActive(false);
                 transform.Find("Go").gameObject.SetActive(true);
             }
@@ -133,8 +143,10 @@ public class PlayerSelection : MonoBehaviour
 
         if (transform.Find("Go") != null)
         {
-            if (transform.Find("Go").GetComponent<RectTransform>().sizeDelta.magnitude > magToScale)
+            if (transform.Find("Go").GetComponent<RectTransform>().sizeDelta.magnitude > magToScale && !goSound)
             {
+                goSound = true;
+                FindObjectOfType<BeatController>().hasStarted = true;
                 transform.Find("Go").gameObject.SetActive(false);
                 transform.Find("Cloud").gameObject.SetActive(false);
             }

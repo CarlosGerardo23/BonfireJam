@@ -6,9 +6,8 @@ public class HoldEvent : InstrumentEvent
 {
    public bool isHolding;
    bool eventPass = false;
-   protected override IEnumerator ActivateEvent(float timeToActive = 0.5f)
+   protected override void ActivateEvent()
    {
-      yield return new WaitForSeconds(timeToActive);
       eventObject.SetActive(true);
       eventStarted = true;
    }
@@ -23,7 +22,7 @@ public class HoldEvent : InstrumentEvent
          if (!eventStarted || animationOver)
             StopAllCoroutines();
          else
-            StartCoroutine(CheckEndAnimation());
+            
          return true;
       }
       if (Input.GetKeyUp(KeyCode.A))
@@ -36,9 +35,9 @@ public class HoldEvent : InstrumentEvent
       return true;
    }
 
-   protected override IEnumerator CheckEndAnimation()
+   protected override void CheckEndAnimation()
    {
-      yield return new WaitForSeconds(animationTime);
+     
       animationOver = true;
       eventStarted = false;
       eventPass = true;
