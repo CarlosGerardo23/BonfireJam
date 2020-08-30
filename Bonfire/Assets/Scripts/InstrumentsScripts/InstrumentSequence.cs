@@ -19,7 +19,7 @@ public class InstrumentSequence : MonoBehaviour
    {
       if (Input.GetKeyDown(KeyCode.K))
       {
-       StartCoroutine(DoSequence());
+         StartCoroutine(DoSequence());
       }
    }
 
@@ -37,8 +37,28 @@ public class InstrumentSequence : MonoBehaviour
          InstrumentEvent temp = sequence[sequenceIndex];
          sequence.Remove(temp);
          yield return new WaitForSeconds(1f);
-         temp.StartEvent(.2f);
+         temp.StartEvent();
       }
+      sequence = new List<InstrumentEvent>(events);
+   }
+
+   public void DoOneEvent()
+   {
+      if (sequence == null || sequence.Count == 0)
+      {
+         Debug.LogError("Sequence not initialize");
+         return;
+      }
+
+      int sequenceIndex = Random.Range(0, sequence.Count);
+      InstrumentEvent temp = sequence[sequenceIndex];
+      if (temp==null||temp.eventStarted)
+         return;
+      sequence.Remove(temp);
+     
+      temp.StartEvent();
+
+      if(sequence.Count<1)
       sequence = new List<InstrumentEvent>(events);
    }
 }

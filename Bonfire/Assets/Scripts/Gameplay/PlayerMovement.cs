@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]private float gravityScale = 1.0f;
     private static float globalGravity = -9.81f;
     private Animator anim;
+    private SoundEvent soundEvent;
     public PlayerControls playerControls;
     [SerializeField] private float _speed;
     private Vector2 move;
@@ -18,6 +19,13 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private float jumpForce;
     private bool isTouchingGround;
+
+    public bool gameFinished;
+
+    private float stepsSeparationTimer;
+    public float stepsSeparationTime;
+    private bool step1;
+    private bool finishedSound;
 
 
     public Animator Anim
@@ -41,6 +49,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        finishedSound = false;
+        gameFinished = false;
+        soundEvent = GetComponent<SoundEvent>();
         jumpRequest = false;
         isJumping = true;
         rb = GetComponent<Rigidbody>();
@@ -60,74 +71,141 @@ public class PlayerMovement : MonoBehaviour
             jump = false;
         }
     }
-    public void OnMove(InputAction.CallbackContext value)
+    public void OnMove()
     {
-        move = value.ReadValue<Vector2>();
+        move = new Vector2(Input.GetAxis("Horizontal" + name[0]), Input.GetAxis("Vertical" + name[0]));
     }
-    
-    
+
+
     void Update()
     {
-        
+        if (!gameFinished)
+        {
+            OnMove();
+            if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
+            {
+                if (move.magnitude > 0)
+                {
+                    if (stepsSeparationTimer > stepsSeparationTime && !isJumping)
+                    {
+                        stepsSeparationTimer = 0;
+                        if (step1)
+                        {
+                            step1 = false;
+                            PlaySound(1);
+                        }
+                        else
+                        {
+                            step1 = true;
+                            PlaySound(2);
+                        }
+                    }
+                    anim.SetTrigger("Walking");
+                }
+                else
+                {
+                    anim.SetTrigger("Idle");
+                }
+            }
+        }
+        else
+        {
+            if (FindObjectOfType<ScoreScript>().score >= 15)
+            {
+                if (!finishedSound)
+                {
+                    finishedSound = true;
+                    soundEvent.PlayClipByIndex(5);
+                }
+                anim.SetTrigger("win");
+            }
+            else if (FindObjectOfType<ScoreScript>().score <= 0)
+            {
+                if (!finishedSound)
+                {
+                    finishedSound = true;
+                    soundEvent.PlayClipByIndex(4);
+                }
+                anim.SetTrigger("loose");
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        if (!isJumping)
+        if (!gameFinished)
         {
-
-            anim.SetBool("Jump", false);
-        }
-        else
-        {
-            anim.SetBool("Jump", true);
-        }
-
-
-        if (jump && !isJumping)
-        {
-
-            jumpRequest = true;
-            isJumping = true;
-
-        }
-
-        if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
-        {
-            if (move.magnitude > 0)
+            if (!isJumping)
             {
-                anim.SetTrigger("Walking");
+
+                anim.SetBool("Jump", false);
             }
             else
             {
-                anim.SetTrigger("Idle");
+                anim.SetBool("Jump", true);
             }
 
-
-            Vector3 gravity = globalGravity * gravityScale * Vector3.up;
-            GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
-        }
-        if (jumpRequest)
-        {
-            Jump();
-            jumpRequest = false;
-        }
-
-        if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
-        {
-            var transformDirection = transform.TransformDirection(Vector3.forward * move.magnitude * _speed * Time.deltaTime);
-            rb.MovePosition(new Vector3(transform.position.x + transformDirection.x, transform.position.y, transform.position.z + transformDirection.z));
-            if (new Vector3(move.x, 0, move.y) != Vector3.zero)
+            if (name[0] == '1')
             {
-                transform.forward = new Vector3(move.x, 0, move.y).normalized;
+                if (Input.GetKey(KeyCode.Joystick1Button0) && !isJumping)
+                {
+
+                    jumpRequest = true;
+                    isJumping = true;
+
+                }
+            }
+            else if (name[0] == '2')
+            {
+                if (Input.GetKey(KeyCode.Joystick2Button0) && !isJumping)
+                {
+
+                    jumpRequest = true;
+                    isJumping = true;
+
+                }
             }
 
-            
+
+
+            stepsSeparationTimer += Time.deltaTime;
+
+            if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
+            {
+
+
+
+                Vector3 gravity = globalGravity * gravityScale * Vector3.up;
+                GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
+            }
+            if (jumpRequest)
+            {
+                Jump();
+                jumpRequest = false;
+            }
+
+            if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
+            {
+                var transformDirection = transform.TransformDirection(Vector3.forward * move.magnitude * _speed * Time.deltaTime);
+                rb.MovePosition(new Vector3(transform.position.x + transformDirection.x, transform.position.y, transform.position.z + transformDirection.z));
+                if (new Vector3(move.x, 0, move.y) != Vector3.zero)
+                {
+                    transform.forward = new Vector3(move.x, 0, move.y).normalized;
+                }
+
+
+            }
         }
+    }
+
+    public void PlaySound(int index)
+    {
+        soundEvent.PlayClipByIndex(index);
     }
 
     void Jump()
     {
+        soundEvent.PlayClipByIndex(0);
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 

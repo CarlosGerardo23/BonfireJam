@@ -4,34 +4,43 @@ using UnityEngine;
 
 public class TapEvent : InstrumentEvent
 {
-   [SerializeField] float minimumTime;
+   [SerializeField] Vector3 minimumScale;
+   [SerializeField] Vector3 maxScale;
 
-  
-   protected override IEnumerator ActivateEvent(float timeToActive = 0.5f)
+
+   protected override void ActivateEvent()
    {
-      yield return new WaitForSeconds(timeToActive);
-      
       animator.SetTrigger("activate");
-      StartCoroutine(CheckEndAnimation());
+
       eventStarted = true;
    }
 
- 
 
-   protected override IEnumerator CheckEndAnimation()
+
+   protected override void CheckEndAnimation()
    {
-      yield return new WaitForSeconds(minimumTime);
-      canDoAction = true;
-      yield return new WaitForSeconds(animationTime);
-      canDoAction = false;
-      animationOver = true;
+      if (!eventStarted) return;
+      Transform compare = eventObject.transform.GetChild(0);
+      if (compare.localScale.magnitude < minimumScale.magnitude
+          && compare.localScale.magnitude > maxScale.magnitude)
+      {
+         canDoAction = true;
+      }
+      if(compare.localScale.magnitude <= maxScale.magnitude)
+      {
+         animationOver = true;
+         canDoAction = false;
+         compare.localScale = new Vector3(1, 1, 1);
+         CheckLifeOfEvent();
+        
+      }
 
    }
 
    public override void DoAction()
    {
 
-      if (!animationOver&&eventStarted)
+      if (!animationOver && eventStarted)
       {
          if (canDoAction)
             actionConditionSucces = true;
@@ -40,7 +49,8 @@ public class TapEvent : InstrumentEvent
 
          canDoAction = false;
          animationOver = true;
-       
+         CheckLifeOfEvent();
+
       }
 
 
