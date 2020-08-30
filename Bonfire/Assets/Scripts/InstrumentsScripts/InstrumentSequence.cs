@@ -6,6 +6,7 @@ public class InstrumentSequence : MonoBehaviour
 {
    List<InstrumentEvent> events;
    List<InstrumentEvent> sequence;
+   public int numberOfEvents;
    private void Awake()
    {
       events = new List<InstrumentEvent>();
@@ -49,16 +50,17 @@ public class InstrumentSequence : MonoBehaviour
          Debug.LogError("Sequence not initialize");
          return;
       }
-
-      int sequenceIndex = Random.Range(0, sequence.Count);
-      InstrumentEvent temp = sequence[sequenceIndex];
-      if (temp==null||temp.eventStarted)
-         return;
-      sequence.Remove(temp);
-     
-      temp.StartEvent();
-
-      if(sequence.Count<1)
+      int numberOfEventsSelected = Random.Range(1, numberOfEvents);
+      int sequenceIndex;
+      for (int i = 0; i < 4; i++)
+      {
+          sequenceIndex = Random.Range(0, sequence.Count);
+         InstrumentEvent temp = sequence[sequenceIndex];
+         if (temp == null || temp.eventStarted)
+            continue;
+         sequence.Remove(temp);
+         temp.StartEvent();
+      }    
       sequence = new List<InstrumentEvent>(events);
    }
 }
