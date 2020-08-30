@@ -66,14 +66,15 @@ public class PlayerMovement : MonoBehaviour
             jump = false;
         }
     }
-    public void OnMove(InputAction.CallbackContext value)
+    public void OnMove()
     {
-        move = value.ReadValue<Vector2>();
+        move = new Vector2(Input.GetAxis("Horizontal" + name[0]), Input.GetAxis("Vertical" + name[0]));
     }
 
 
     void Update()
     {
+        OnMove();
         if (!GetComponent<PlayerTransitionCube>().IsTransitioning)
         {
             if (move.magnitude > 0)
@@ -113,14 +114,28 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Jump", true);
         }
 
-
-        if (jump && !isJumping)
+        if (name[0] == '1')
         {
+            if (Input.GetKey(KeyCode.Joystick1Button0) && !isJumping)
+            {
 
-            jumpRequest = true;
-            isJumping = true;
+                jumpRequest = true;
+                isJumping = true;
 
+            }
         }
+        else if (name[0] == '2')
+        {
+            if (Input.GetKey(KeyCode.Joystick2Button0) && !isJumping)
+            {
+
+                jumpRequest = true;
+                isJumping = true;
+
+            }
+        }
+
+        
 
         stepsSeparationTimer += Time.deltaTime;
 

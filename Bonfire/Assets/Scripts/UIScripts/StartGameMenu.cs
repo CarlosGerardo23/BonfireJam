@@ -14,22 +14,30 @@ public class StartGameMenu : UIElement
     // Start is called before the first frame update
     public override void Awake()
     {
+        transform.parent.GetComponent<SoundEvent>().PlayClip();
         base.Awake();
     }
 
-    public void OnStart(InputAction.CallbackContext value)
+    private void Update()
     {
-        
-            if (value.performed)
-            {
-                StartPressed();
-            }
+        OnStart();
+    }
+
+    public void OnStart()
+    {
+
+        if (Input.GetAxis("Start") > 0 && !isPressed)
+        {
+            GetComponent<SoundEvent>().PlayOnDisable(3);
+            isPressed = true;
+            StartPressed();
+        }
     }
     void StartPressed()
     {
-
+        
         FindObjectOfType<CinemachineVirtualCamera>().GetComponent<Animator>().SetTrigger("Move");
-        GetComponent<PlayerInput>().enabled = false;
+        transform.parent.GetComponent<UIController>().ChangeByName("PlayerSelection");
     }
 
 }
